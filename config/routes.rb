@@ -340,6 +340,15 @@ Expertiza::Application.routes.draw do |map|
     end
   end
 
+  resources :analytic do
+    collection do
+      get :graph_data_type_list
+      get :course_list
+      get :assignment_list
+      get :get_graph_data_bundle
+    end
+  end
+
   match '/menu/*name', controller: :menu_items, action: :link
   match ':page_name', controller: :content_pages, action: :view, method: :get
 
