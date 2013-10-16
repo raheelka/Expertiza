@@ -110,16 +110,10 @@ module AssignmentAnalytic
   #helper function do to verify the assumption made above
   def self.questionnaire_unique?
     self.all.each do |assignment|
-      assignment.questionnaire_types.each do |questionnaire_type|
-        questionnaire_list = Array.new
-        assignment.questionnaires.each do |questionnaire|
-          if questionnaire.type == questionnaire_type
-            questionnaire_list << questionnaire
-          end
-          if questionnaire_list.count > 1
-            return false
-          end
-        end
+      questionnaire_type_count_map = Hash.new(0)
+      assignment.questionnaires.each do |questionnaire|
+        return false if questionnaire_type_count_map[questionnaire.type] ==1
+        questionnaire_type_count_map[questionnaire.type] += 1
       end
     end
     return true
