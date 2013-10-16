@@ -76,11 +76,7 @@ module AssignmentTeamAnalytic
     self.responses.each do |response|
       list << response.total_character_count
     end
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
   #return an array containing the score of all the reviews
@@ -89,11 +85,7 @@ module AssignmentTeamAnalytic
     self.responses.each do |response|
       list << response.get_average_score
     end
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
   def review_word_counts
@@ -101,11 +93,7 @@ module AssignmentTeamAnalytic
     self.responses.each do |response|
       list << response.total_word_count
     end
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
   #======= unused ============#
