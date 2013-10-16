@@ -91,13 +91,37 @@ module AssignmentAnalytic
 
   #return questionnaire of a type related to the assignment
   #assumptions: only 1 questionnaire of each type exist which should be the case
+  #def questionnaire_of_type(type_name_in_string)
+  #  self.questionnaires.each do |questionnaire|
+  #    if questionnaire.type == type_name_in_string
+  #      return questionnaire
+  #    end
+  #  end
+  #end
+
+  #return questionnaire of a type related to the assignment
+  #assumptions: only 1 questionnaire of each type exist which should be the case
   def questionnaire_of_type(type_name_in_string)
-    self.questionnaires.each do |questionnaire|
-      if questionnaire.type == type_name_in_string
-        return questionnaire
-      end
-    end
+    self.questionnaires.find { |questionnaire| questionnaire == type_name_in_string}
   end
+
+  ##helper function do to verify the assumption made above
+  #def self.questionnaire_unique?
+  #  self.all.each do |assignment|
+  #    assignment.questionnaire_types.each do |questionnaire_type|
+  #      questionnaire_list = Array.new
+  #      assignment.questionnaires.each do |questionnaire|
+  #        if questionnaire.type == questionnaire_type
+  #          questionnaire_list << questionnaire
+  #        end
+  #        if questionnaire_list.count > 1
+  #          return false
+  #        end
+  #      end
+  #    end
+  #  end
+  #  return true
+  #end
 
   #helper function do to verify the assumption made above
   def self.questionnaire_unique?
