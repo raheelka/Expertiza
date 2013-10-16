@@ -3,9 +3,11 @@ class AnalyticController < ApplicationController
   include AnalyticHelper
 
   before_filter :init
+
   def index
 
   end
+
   def init
     #all internal not use by the page
     @available_scope_types = [:courses, :assignments, :teams]
@@ -15,9 +17,9 @@ class AnalyticController < ApplicationController
     #Hash of available method name of the data mining methods with different type of selection
     @available_data_types = Hash.new
     #data type by scope
-    @available_data_types[:course] = CourseAnalytic.instance_methods
-    @available_data_types[:assignment] = AssignmentAnalytic.instance_methods
-    @available_data_types[:team] = AssignmentTeamAnalytic.instance_methods
+    @available_data_types[:course] = CourseAnalytic.instance_methods.map(&:to_s)
+    @available_data_types[:assignment] = AssignmentAnalytic.instance_methods.map(&:to_s)
+    @available_data_types[:team] = AssignmentTeamAnalytic.instance_methods.map(&:to_s)
     #data type by chart type
     @available_data_types[:bar] = [
         #general
@@ -74,10 +76,10 @@ class AnalyticController < ApplicationController
 
   def graph_data_type_list
     #cross checking @available_data_type[chart_type] with @available_data_type[scope]
-    data_type_list =  @available_data_types[params[:scope].to_sym] & @available_data_types[params[:type].to_sym]
-    data_type_list.sort!
+    data_type_list = @available_data_types[params[:scope].to_sym] & @available_data_types[params[:type].to_sym]
+    #data_type_list.sort!
     respond_to do |format|
-      format.json { render :json => data_type_list}
+      format.json { render :json => data_type_list }
     end
   end
 
@@ -93,6 +95,7 @@ class AnalyticController < ApplicationController
   #Chart.new(:bar, dataPoint, options2)
   #should be rename to graph_data_packet
   def get_graph_data_bundle
+    puts params
     if params[:id].nil? or params[:data_type].nil?
       respond_to do |format|
         format.json { render :json => nil }
@@ -100,22 +103,16 @@ class AnalyticController < ApplicationController
       return
     end
 
-    case params[:type]
-      when "line"
-        chart_data = line_graph_data(params[:scope], params[:id], params[:data_type])
-      when "bar"
-        chart_data = bar_chart_data(params[:scope], params[:id], params[:data_type])
-      when "scatter"
-        chart_data = scatter_plot_data(params[:scope], params[:id], params[:data_type])
-      when "pie"
-        chart_data = pie_chart_data(params[:scope], params[:id], params[:data_type])
-    end
+    chart_method = {'line' => 'line_graph_data',
+                    'bar' => 'bar_chart_data',
+                    'scatter' => 'scatter_plot_data',
+                    'pie' => 'pie_graph_data' }
+    chart_data = send(chart_method[params[:type]], params[:scope], params[:id], params[:data_type])
 
     respond_to do |format|
       format.json { render :json => chart_data }
     end
   end
-
 
 
   def course_list
