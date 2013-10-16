@@ -54,11 +54,7 @@ module AssignmentAnalytic
       list << team.num_reviews
     end
 
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
   def team_scores
@@ -66,11 +62,7 @@ module AssignmentAnalytic
     self.teams.each do |team|
       list << team.average_review_score
     end
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
 

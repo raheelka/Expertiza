@@ -58,11 +58,7 @@ module ResponseAnalytic
     self.scores.each do |score|
       list << score.word_count
     end
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
   def character_count_list
@@ -70,11 +66,7 @@ module ResponseAnalytic
     self.scores.each do |score|
       list << score.character_count
     end
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
   #return score for all of the questions in an array
@@ -83,11 +75,7 @@ module ResponseAnalytic
     self.scores.each do |score|
       list << score.score
     end
-    if (list.empty?)
-      [0]
-    else
-      list
-    end
+    (list.empty?) ? [0]: list
   end
 
   #return an array of strings containing all of the comments
