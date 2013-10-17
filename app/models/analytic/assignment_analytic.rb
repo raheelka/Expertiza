@@ -1,4 +1,6 @@
 require 'analytic/assignment_team_analytic'
+require 'analytic/common_analytic'
+
 module AssignmentAnalytic
   #====== general statistics ======#
   def num_participants
@@ -49,19 +51,20 @@ module AssignmentAnalytic
 
 
   def team_review_counts
-    list = Array.new
-    self.teams.each do |team|
-      list << team.num_reviews
-    end
-
+    #list = Array.new
+    #self.teams.each do |team|
+    #  list << team.num_reviews
+    #end
+    list = extract_from_list self.teams,:num_reviews
     (list.empty?) ? [0]: list
   end
 
   def team_scores
-    list = Array.new
-    self.teams.each do |team|
-      list << team.average_review_score
-    end
+    #list = Array.new
+    #self.teams.each do |team|
+    #  list << team.average_review_score
+    #end
+    extract_from_list self.teams, :average_review_score
     (list.empty?) ? [0]: list
   end
 

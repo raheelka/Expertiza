@@ -16,18 +16,20 @@ module QuestionnaireAnalytic
   end
 
   def questions_text_list
-    question_list = Array.new
-    self.questions.each do |questions|
-      question_list << question.txt
-    end
-    question_list
+    #question_list = Array.new
+    #self.questions.each do |questions|
+    #  question_list << question.txt
+    #end
+    #question_list
+    extract_from_list self.questions, :txt
   end
 
   def word_count_list
-    word_count_list = Array.new
-    self.questions.each do |question|
-      word_count_list << question.word_count_list
-    end
+    #word_count_list = Array.new
+    #self.questions.each do |question|
+    #  word_count_list << question.word_count_list
+    #end
+    extract_from_list self.questions, :word_count_list
   end
 
   def total_word_count
@@ -39,10 +41,11 @@ module QuestionnaireAnalytic
   end
 
   def character_count_list
-    character_count_list = Array.new
-    self.questions.each do |question|
-      character_count_list << question.character_count
-    end
+    #character_count_list = Array.new
+    #self.questions.each do |question|
+    #  character_count_list << question.character_count
+    #end
+    extract_from_list self.questions, :character_count
   end
 
   def total_character_count

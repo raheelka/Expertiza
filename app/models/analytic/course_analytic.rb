@@ -15,11 +15,7 @@ module CourseAnalytic
   end
 
   def average_num_assignment_teams
-    if num_assignments == 0
-      0
-    else
-      total_num_assignment_teams.to_f/num_assignments
-    end
+    num_assignments == 0 ? 0 : total_num_assignment_teams.to_f/num_assignments
   end
 
   def max_num_assignment_teams
@@ -32,11 +28,7 @@ module CourseAnalytic
 
   #===== assignment score =====#
   def average_assignment_score
-    if num_assignments == 0
-      0
-    else
-      assignment_average_scores.inject(:+).to_f/num_assignments
-    end
+    num_assignments == 0  ? 0 : assignment_average_scores.inject(:+).to_f/num_assignments
   end
 
   def max_assignment_score
@@ -49,10 +41,11 @@ module CourseAnalytic
 
   #======= reviews =======#
   def assignment_review_counts
-    list = Array.new
-    self.assignments.each do |assignment|
-      list << assignment.total_num_team_reviews
-    end
+    #list = Array.new
+    #self.assignments.each do |assignment|
+    #  list << assignment.total_num_team_reviews
+    #end
+    list = extract_from_list self.assignments, :total_num_team_reviews
     (list.empty?) ? [0]: list
   end
 
@@ -74,34 +67,38 @@ module CourseAnalytic
 
 
   def assignment_team_counts
-    list = Array.new
-    self.assignments.each do |assignment|
-      list << assignment.num_teams
-    end
+    #list = Array.new
+    #self.assignments.each do |assignment|
+    #  list << assignment.num_teams
+    #end
+    list = extract_from_list self.assignments, :num_teams
     (list.empty?) ? [0]: list
   end
 
   def assignment_average_scores
-    list = Array.new
-    self.assignments.each do |assignment|
-      list << assignment.average_team_score
-    end
+    #list = Array.new
+    #self.assignments.each do |assignment|
+    #  list << assignment.average_team_score
+    #end
+    list = extract_from_list self.assignments, :average_team_score
     (list.empty?) ? [0]: list
   end
 
   def assignment_max_scores
-    list = Array.new
-    self.assignments.each do |assignment|
-      list << assignment.max_team_score
-    end
+    #list = Array.new
+    #self.assignments.each do |assignment|
+    #  list << assignment.max_team_score
+    #end
+    list = extract_from_list self.assignments, :max_team_score
     (list.empty?) ? [0]: list
   end
 
   def assignment_min_scores
-    list = Array.new
-    self.assignments.each do |assignment|
-      list << assignment.min_team_score
-    end
+    #list = Array.new
+    #self.assignments.each do |assignment|
+    #  list << assignment.min_team_score
+    #end
+    list = extract_from_list self.assignments, :min_team_score
     (list.empty?) ? [0]: list
   end
 

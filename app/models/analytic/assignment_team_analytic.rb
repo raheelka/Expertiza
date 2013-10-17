@@ -11,11 +11,7 @@ module AssignmentTeamAnalytic
 
   #========== score ========#
   def average_review_score
-    if self.num_reviews == 0
-      return 0
-    else
-      review_scores.inject(:+).to_f/num_reviews
-    end
+    self.num_reviews == 0  ? 0 : review_scores.inject(:+).to_f/num_reviews
   end
 
   def max_review_score
@@ -32,11 +28,7 @@ module AssignmentTeamAnalytic
   end
 
   def average_review_word_count
-    if self.num_reviews == 0
-      return 0
-    else
-      total_review_word_count.to_f/num_reviews
-    end
+    self.num_reviews == 0 ? 0 : total_review_word_count.to_f/num_reviews
   end
 
   def max_review_word_count
@@ -53,11 +45,7 @@ module AssignmentTeamAnalytic
   end
 
   def average_review_character_count
-    if num_reviews == 0
-      0
-    else
-      total_review_character_count.to_f/num_reviews
-    end
+    num_reviews == 0 ? 0 : total_review_character_count.to_f/num_reviews
   end
 
   def max_review_character_count
@@ -72,27 +60,30 @@ module AssignmentTeamAnalytic
 
 
   def review_character_counts
-    list = Array.new
-    self.responses.each do |response|
-      list << response.total_character_count
-    end
+    #list = Array.new
+    #self.responses.each do |response|
+    #  list << response.total_character_count
+    #end
+    list = extract_from_list self.responses, :total_character_count
     (list.empty?) ? [0]: list
   end
 
   #return an array containing the score of all the reviews
   def review_scores
-    list = Array.new
-    self.responses.each do |response|
-      list << response.get_average_score
-    end
+    #list = Array.new
+    #self.responses.each do |response|
+    #  list << response.get_average_score
+    #end
+    list = extract_from_list self.responses, :get_average_score
     (list.empty?) ? [0]: list
   end
 
   def review_word_counts
-    list = Array.new
-    self.responses.each do |response|
-      list << response.total_word_count
-    end
+    #list = Array.new
+    #self.responses.each do |response|
+    #  list << response.total_word_count
+    #end
+    list = extract_from_list self.responses, :total_word_count
     (list.empty?) ? [0]: list
   end
 
