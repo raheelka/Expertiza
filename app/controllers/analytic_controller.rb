@@ -4,23 +4,21 @@ class AnalyticController < ApplicationController
   before_filter :init
 
   def index
-
   end
 
   def init
-    #all internal not use by the page
-    @available_scope_types = [:courses, :assignments, :teams]
-    @available_graph_types = [:line, :bar, :pie, :scatter]
-    @available_courses = associated_courses(session[:user])
+    init_scope_analytics
+    init_graph_analytics
+  end
 
-    #Hash of available method name of the data mining methods with different type of selection
-    @available_data_types= {:course => CourseAnalytic.instance_methods.map(&:to_s),
-                            :assignment => AssignmentAnalytic.instance_methods.map(&:to_s),
-                            :team => AssignmentTeamAnalytic.instance_methods.map(&:to_s)}
-    #Available statistics
-    @available_statistics = ['min', 'max', 'total', 'average']
-
+  def init_scope_analytics
     # Available attributes for each type of chart
+    @available_analytics = {:course => CourseAnalytic.available_analytics,
+                            :assignment => AssignmentAnalytic.available_analytics,
+                            :team => AssignmentTeamAnalytic.available_analytics}
+  end
+
+  def init_graph_analytics
     @available_attributes = {:bar => ['num_assignment_teams',
                                       'assignment_score',
                                       'num_assignment_reviews',
@@ -36,28 +34,24 @@ class AnalyticController < ApplicationController
     }
 
     # Create list of data_types for bar chart. Rest charts not implemented
-    @available_data_types[:bar] = @available_statistics.inject([]) do |result, statistic|
+    @available_analytics[:bar] = aggregate_functions.inject([]) do |result, statistic|
       @available_attributes[:bar].each { |data_type| result.push("#{statistic}_#{data_type}") }
       result
     end
   end
 
-  def graph_data_type_list
-    #cross checking @available_data_type[chart_type] with @available_data_type[scope]
-    scope = params[:scope].to_sym
-    graph_type = params[:type].to_sym
-    data_type_list = @available_data_types[scope] & @available_data_types[graph_type]
-    data_type_list.sort!
-    render :json => data_type_list
+  def required_analytics(scope, graph_type)
+    @available_analytics[scope] & @available_analytics[graph_type]
   end
 
-  def incomplete_params?(params)
-    params[:id].nil? or params[:data_type].nil?
+  def graph_analytics_list
+    scope = params[:scope].to_sym
+    graph_type = params[:type].to_sym
+    analytics_list = required_analytics(scope, graph_type)
+    render :json => analytics_list.sort!
   end
 
   def get_graph_data_bundle
-    a = Time.now
-    puts "entered get "
     render :json => nil if incomplete_params?(params)
 
     scope = params[:scope]
@@ -65,13 +59,12 @@ class AnalyticController < ApplicationController
     id = params[:id]
     data_type = params[:data_type]
 
-    chart_method_name = {'line' => 'line_graph_data',
+    graph_method_name = {'line' => 'line_graph_data',
                          'bar' => 'bar_chart_data',
                          'scatter' => 'scatter_plot_data',
                          'pie' => 'pie_graph_data'}
-    chart_data = send(chart_method_name[graph_type], scope, id, data_type)
-    render :json => chart_data
-    puts "Exiting get #{Time.now - a} #{chart_data.to_json}"
+    graph_data = send(graph_method_name[graph_type], scope, id, data_type)
+    render :json => graph_data
   end
 
   def course_list
