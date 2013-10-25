@@ -29,9 +29,32 @@ module ScatterPlotHelper
 end
 
 module AnalyticHelper
+  def aggregate_functions
+    %w(min max total average)
+  end
+
   #====== generating chart data ================#
   def bar_chart_data(object_type, object_id_list, data_type_list)
     data_point = Array.new
+    puts "BAR #{object_type}    #{object_id_list}     #{data_type_list}"
+    object_model = Object.const_get(object_type.capitalize)
+    object_id_list.each do |object_id|
+      object = object_model.find(object_id) #.each do |object|
+      object_data = Hash.new
+      object_data[:name] = object.name
+      object_data[:data] = gather_data(object, data_type_list)
+      data_point << object_data
+    end
+    option = Hash.new
+    option[:x_axis_categories] =data_type_list
+    Chart.new(:bar, data_point, option).data
+
+  end
+
+=begin
+  def bar_chart_data(object_type, object_id_list, data_type_list)
+    data_point = Array.new
+    puts "BAR #{object_type}    #{object_id_list}     #{data_type_list}"
     object_model = Object.const_get(object_type.capitalize)
     object_id_list.each do |object_id|
       object = object_model.find(object_id)
@@ -43,19 +66,24 @@ module AnalyticHelper
     option = Hash.new
     option[:x_axis_categories] =data_type_list
     Chart.new(:bar, data_point, option).data
+
   end
+=end
 
   def gather_data(object, data_type_array)
     data_array = Array.new
     data_type_array.each do |data_method|
+      a = Time.now
+      puts "CALLING #{data_method} for #{object.name} #{object.class}"
       data_array << object.send(data_method)
+      puts "DONE CALLING #{Time.now - a}"
     end
     data_array
   end
 
   #======== sorting ============#
   def sort_by_name(array_of_arrays)
-    array_of_arrays.sort {|x,y| x[0] <=> y[0]}
+    array_of_arrays.sort { |x, y| x[0] <=> y[0] }
   end
 
   #======= helper data formatting =====#
