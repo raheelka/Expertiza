@@ -33,6 +33,10 @@ module AnalyticHelper
     %w(min max total average)
   end
 
+  def incomplete_params?(params)
+    params[:id].nil? or params[:data_type].nil?
+  end
+
   #====== generating chart data ================#
   def bar_chart_data(object_type, object_id_list, data_type_list)
     data_point = Array.new
