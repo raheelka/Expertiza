@@ -342,8 +342,9 @@ Expertiza::Application.routes.draw do |map|
 
   resources :analytic do
     collection do
-      get :graph_data_type_list
+      get :graph_analytics_list
       get :course_list
+      get :team_list
       get :assignment_list
       get :get_graph_data_bundle
     end
