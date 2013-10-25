@@ -89,7 +89,7 @@ module CourseAnalytic
     p "ASS AVG SCORE"
     list = extract_from_list self.assignments, :average_team_score
     p "END ASS AVG SCORE"
-   (list.empty?) ? [0] : list
+    (list.empty?) ? [0] : list
 
   end
 
