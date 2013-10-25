@@ -380,6 +380,7 @@ class Chart
      }]
      }
     }
+
   end
   def self.test_data()
     {
