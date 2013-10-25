@@ -1,5 +1,4 @@
 class Assignment < ActiveRecord::Base
-  require 'analytic/assignment_analytic'
   include AssignmentAnalytic
   include DynamicReviewMapping
 
@@ -67,7 +66,7 @@ class Assignment < ActiveRecord::Base
 
     # Reject contributions of topics whose deadline has passed
     contributor_set.reject! { |contributor| contributor.assignment.get_current_stage(signed_up_topic(contributor).id) == 'Complete' or
-                                            contributor.assignment.get_current_stage(signed_up_topic(contributor).id) == 'submission' }
+        contributor.assignment.get_current_stage(signed_up_topic(contributor).id) == 'submission' }
 
     # Filter the contributors with the least number of reviews
     # (using the fact that each contributor is associated with a topic)
@@ -337,12 +336,12 @@ class Assignment < ActiveRecord::Base
 
   # Determine if the next due date from now allows for submissions
   def submission_allowed(topic_id=nil)
-    return (check_condition('submission_allowed_id', topic_id) )
+    return (check_condition('submission_allowed_id', topic_id))
   end
 
   # Determine if the next due date from now allows for reviews
   def review_allowed(topic_id=nil)
-    return (check_condition('review_allowed_id', topic_id) )
+    return (check_condition('review_allowed_id', topic_id))
   end
 
   # Determine if the next due date from now allows for metareviews

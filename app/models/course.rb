@@ -64,6 +64,5 @@ class Course < ActiveRecord::Base
     end
   end
 
-  require 'analytic/course_analytic'
   include CourseAnalytic
 end
