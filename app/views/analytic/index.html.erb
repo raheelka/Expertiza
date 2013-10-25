@@ -122,7 +122,7 @@
                     var scope, type;
                     type = tbody.find(".graph_type")[0].value;
                     scope = tbody.find(".compare_type")[0].value;
-                    jQuery.get("/analytic/graph_data_type_list?scope=" + scope + "&type=" + type, function (json) {
+                    jQuery.get("/analytic/graph_analytics_list?scope=" + scope + "&type=" + type, function (json) {
                         var check_box_list, i;
                         check_box_list = "";
                         for (i = 0; i < json.length; i++) {
