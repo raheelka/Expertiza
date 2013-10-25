@@ -1,15 +1,18 @@
 require 'analytic/score_analytic'
 module ResponseAnalytic
   def num_questions
+   puts "EXEC NUM QUES"
     self.scores.count
   end
 
   #====== score =======#
   def average_score
+    puts "EXEC AVG QUES"
     question_score_list.inject(:+)/num_questions
   end
 
   def max_question_score
+    puts "EXEC MAX QUES"
     question_score_list.max
   end
 

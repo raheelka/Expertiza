@@ -1,5 +1,9 @@
 require 'analytic/assignment_analytic'
+require 'analytic/common_analytic'
+
 module CourseAnalytic
+  include CommonAnalytic
+
   #====== general statistics ======#
   def num_participants
     self.participants.count
@@ -28,7 +32,9 @@ module CourseAnalytic
 
   #===== assignment score =====#
   def average_assignment_score
-    num_assignments == 0  ? 0 : assignment_average_scores.inject(:+).to_f/num_assignments
+    puts "IN AVG ASSG"
+    num_assignments == 0 ? 0 : assignment_average_scores.inject(:+).to_f/num_assignments
+
   end
 
   def max_assignment_score
@@ -46,7 +52,7 @@ module CourseAnalytic
     #  list << assignment.total_num_team_reviews
     #end
     list = extract_from_list self.assignments, :total_num_team_reviews
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
 
   def total_num_assignment_reviews
@@ -72,7 +78,7 @@ module CourseAnalytic
     #  list << assignment.num_teams
     #end
     list = extract_from_list self.assignments, :num_teams
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
 
   def assignment_average_scores
@@ -80,8 +86,11 @@ module CourseAnalytic
     #self.assignments.each do |assignment|
     #  list << assignment.average_team_score
     #end
+    p "ASS AVG SCORE"
     list = extract_from_list self.assignments, :average_team_score
-    (list.empty?) ? [0]: list
+    p "END ASS AVG SCORE"
+   (list.empty?) ? [0] : list
+
   end
 
   def assignment_max_scores
@@ -90,7 +99,7 @@ module CourseAnalytic
     #  list << assignment.max_team_score
     #end
     list = extract_from_list self.assignments, :max_team_score
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
 
   def assignment_min_scores
@@ -99,22 +108,7 @@ module CourseAnalytic
     #  list << assignment.min_team_score
     #end
     list = extract_from_list self.assignments, :min_team_score
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
 
-
-  #=============== unused ============#
-  #def students
-  #  students = Array.new
-  #  self.participants.each do |participant|
-  #    if participant.user.role_id == Role.student.id
-  #      students << participant
-  #    end
-  #  end
-  #  student
-  #end
-  #
-  #def num_students
-  #  self.students.count
-  #end
 end

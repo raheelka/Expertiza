@@ -2,6 +2,7 @@ require 'analytic/assignment_team_analytic'
 require 'analytic/common_analytic'
 
 module AssignmentAnalytic
+  include CommonAnalytic
   #====== general statistics ======#
   def num_participants
     self.participants.count
@@ -64,7 +65,7 @@ module AssignmentAnalytic
     #self.teams.each do |team|
     #  list << team.average_review_score
     #end
-    extract_from_list self.teams, :average_review_score
+    list = extract_from_list self.teams, :average_review_score
     (list.empty?) ? [0]: list
   end
 
@@ -145,75 +146,5 @@ module AssignmentAnalytic
   def review_questionnaire
     questionnaire_of_type("ReviewQuestionnaire")
   end
-
-
-  #====unused in version 1=========#
-  #========== word count ==========#
-  #def review_word_counts
-  #  list = Array.new
-  #  self.teams.each do |team|
-  #    list << team.total_word_count
-  #  end
-  #  if (list.empty?)
-  #    [0]
-  #  else
-  #    list
-  #  end
-  #end
-  #
-  #def total_review_word_count
-  #  review_word_counts.inject(:+)
-  #end
-  #
-  #def average_review_word_count
-  #  if num_teams == 0
-  #    0
-  #  end
-  #  total_review_word_count.to_f/num_teams
-  #end
-  #
-  #def max_review_word_count
-  #  review_word_counts.max
-  #end
-  #
-  #def min_review_word_count
-  #  review_word_counts.min
-  #end
-
-  #========== character count ==========#
-  #def review_character_counts
-  #  list = Array.new
-  #  self.teams.each do |team|
-  #    list << team.total_character_count
-  #  end
-  #  if (list.empty?)
-  #    [0]
-  #  else
-  #    list
-  #  end
-  #end
-  #
-  #def total_review_character_count
-  #  review_character_counts.inject(:+)
-  #end
-  #
-  #def average_review_character_count
-  #  if num_teams == 0
-  #    0
-  #  end
-  #  total_review_character_count.to_f/num_teams
-  #end
-  #
-  #def max_review_character_count
-  #  review_character_counts.max
-  #end
-  #
-  #def min_review_character_count
-  #  review_character_counts.min
-  #end
-
-  #def num_students
-  #  self.students.count
-  #end
 
 end

@@ -243,6 +243,7 @@ class Assignment < ActiveRecord::Base
   end
 
   def get_scores(questions)
+    puts "IN GET SCORE"
     scores = Hash.new
 
     scores[:participants] = Hash.new

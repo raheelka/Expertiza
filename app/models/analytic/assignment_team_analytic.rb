@@ -1,16 +1,21 @@
 require 'analytic/response_analytic'
+require 'analytic/common_analytic'
+
 module AssignmentTeamAnalytic
+  include CommonAnalytic
   #======= general ==========#
   def num_participants
     self.participants.count
   end
 
   def num_reviews
+    puts "IN NUM RE"
     self.responses.count
   end
 
   #========== score ========#
   def average_review_score
+    puts "IN AVG RE"
     self.num_reviews == 0  ? 0 : review_scores.inject(:+).to_f/num_reviews
   end
 
