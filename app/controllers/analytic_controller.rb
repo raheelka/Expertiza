@@ -70,6 +70,8 @@ class AnalyticController < ApplicationController
   def course_list
     courses = associated_courses(session[:user])
     course_list = courses.map { |course| [course.name, course.id] }
+    puts "here"
+    puts sort_by_name(course_list)
     render :json => sort_by_name(course_list)
   end
 
@@ -83,7 +85,7 @@ class AnalyticController < ApplicationController
   def team_list
     assignment = Assignment.find(params[:assignment_id])
     teams_list = assignment.teams.map { |team| [team.name, team.id] }
-    render :json => sort_by_name(team_list)
+    render :json => sort_by_name(teams_list)
   end
 
 end
