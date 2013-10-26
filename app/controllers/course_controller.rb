@@ -81,7 +81,7 @@ class CourseController < ApplicationController
       FileHelper.create_directory(course)
       redirect_to :controller => 'tree_display', :action => 'list'
     rescue
-      flash[:error] = "The following error occurred while saving the course: "+$!
+      flash[:error] = "The following error occurred while saving the course: #{$!}"
       redirect_to :action => 'new'
     end
   end
