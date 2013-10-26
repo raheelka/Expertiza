@@ -1,5 +1,6 @@
 require 'analytic/question_analytic'
 module QuestionnaireAnalytic
+=begin
   #return all possible questionnaire types
   def self.types
     type_list = Array.new
@@ -10,6 +11,15 @@ module QuestionnaireAnalytic
     end
     type_list
   end
+=end
+
+
+  #return all possible questionnaire types
+  def self.types
+    type_list = extract_from_list self.all, :type
+    type_list.uniq
+  end
+
 
   def num_questions
     self.questions.count

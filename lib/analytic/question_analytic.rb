@@ -1,13 +1,13 @@
 module QuestionAnalytic
   def unique_character_count
-    self.txt.gsub(/[^0-9A-Za-z ]/, '').downcase.split(" ").uniq.count
+    CountAnalytic.unique_character_count(self.txt)
   end
 
   def character_count
-    self.txt.bytesize
+    CountAnalytic.character_count(self.txt)
   end
 
   def word_count
-    self.txt.gsub(/[^0-9A-Za-z]/, ' ').split(' ').count
+    CountAnalytic.word_count(self.txt)
   end
 end

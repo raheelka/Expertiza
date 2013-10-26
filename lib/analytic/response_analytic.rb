@@ -1,18 +1,17 @@
 require 'analytic/score_analytic'
 module ResponseAnalytic
   def num_questions
-   puts "EXEC NUM QUES"
     self.scores.count
   end
 
   #====== score =======#
   def average_score
-    puts "EXEC AVG QUES"
     question_score_list.inject(:+)/num_questions
+  rescue ZeroDivisionError
+    0
   end
 
   def max_question_score
-    puts "EXEC MAX QUES"
     question_score_list.max
   end
 
@@ -27,6 +26,8 @@ module ResponseAnalytic
 
   def average_word_count
     total_word_count.to_f/num_questions
+  rescue ZeroDivisionError
+    0
   end
 
   def max_word_count
@@ -62,7 +63,7 @@ module ResponseAnalytic
     #  list << score.word_count
     #end
     list = extract_from_list self.scores, :word_count
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
 
   def character_count_list
@@ -71,7 +72,7 @@ module ResponseAnalytic
     #  list << score.character_count
     #end
     list = extract_from_list self.scores, :character_count
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
 
   #return score for all of the questions in an array
@@ -81,7 +82,7 @@ module ResponseAnalytic
     #  list << score.score
     #end
     list = extract_from_list self.scores, :score
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
 
   #return an array of strings containing all of the comments

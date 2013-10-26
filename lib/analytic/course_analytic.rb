@@ -19,7 +19,9 @@ module CourseAnalytic
   end
 
   def average_num_assignment_teams
-    num_assignments == 0 ? 0 : total_num_assignment_teams.to_f/num_assignments
+    total_num_assignment_teams.to_f/num_assignments
+  rescue ZeroDivisionError
+    0
   end
 
   def max_num_assignment_teams
@@ -32,9 +34,9 @@ module CourseAnalytic
 
   #===== assignment score =====#
   def average_assignment_score
-    puts "IN AVG ASSG"
-    num_assignments == 0 ? 0 : assignment_average_scores.inject(:+).to_f/num_assignments
-
+    assignment_average_scores.inject(:+).to_f/num_assignments
+  rescue ZeroDivisionError
+    0
   end
 
   def max_assignment_score
@@ -86,9 +88,7 @@ module CourseAnalytic
     #self.assignments.each do |assignment|
     #  list << assignment.average_team_score
     #end
-    p "ASS AVG SCORE"
     list = extract_from_list self.assignments, :average_team_score
-    p "END ASS AVG SCORE"
     (list.empty?) ? [0] : list
 
   end

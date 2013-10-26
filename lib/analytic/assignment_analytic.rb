@@ -18,11 +18,9 @@ module AssignmentAnalytic
   end
 
   def average_num_team_reviews
-    if num_teams == 0
-      0
-    else
-      total_num_team_reviews.to_f/num_teams
-    end
+    total_num_team_reviews.to_f/num_teams
+  rescue ZeroDivisionError
+    0
   end
 
   def max_num_team_reviews
@@ -35,11 +33,9 @@ module AssignmentAnalytic
 
   #=========== score ==============#
   def average_team_score
-    if num_teams == 0
-      0
-    else
-      self.team_scores.inject(:+).to_f/num_teams
-    end
+    self.team_scores.inject(:+).to_f/num_teams
+  rescue ZeroDivisionError
+    0
   end
 
   def max_team_score
@@ -56,8 +52,8 @@ module AssignmentAnalytic
     #self.teams.each do |team|
     #  list << team.num_reviews
     #end
-    list = extract_from_list self.teams,:num_reviews
-    (list.empty?) ? [0]: list
+    list = extract_from_list self.teams, :num_reviews
+    (list.empty?) ? [0] : list
   end
 
   def team_scores
@@ -66,21 +62,8 @@ module AssignmentAnalytic
     #  list << team.average_review_score
     #end
     list = extract_from_list self.teams, :average_review_score
-    (list.empty?) ? [0]: list
+    (list.empty?) ? [0] : list
   end
-
-
-  #return students that are participating in the assignment
-  #assumptions: all team_participant for all of the teams are in assignment participant
-  #def students
-  #  list = Array.new
-  #  self.participants.each do |participant|
-  #    if participant.user.role_id == Role.student.id
-  #      list << participant
-  #    end
-  #  end
-  #  list
-  #end
 
   #return all questionnaire types associated this assignment
   def questionnaire_types
@@ -106,7 +89,7 @@ module AssignmentAnalytic
   #return questionnaire of a type related to the assignment
   #assumptions: only 1 questionnaire of each type exist which should be the case
   def questionnaire_of_type(type_name_in_string)
-    self.questionnaires.find { |questionnaire| questionnaire == type_name_in_string}
+    self.questionnaires.find { |questionnaire| questionnaire == type_name_in_string }
   end
 
   ##helper function do to verify the assumption made above
@@ -130,11 +113,8 @@ module AssignmentAnalytic
   #helper function do to verify the assumption made above
   def self.questionnaire_unique?
     self.all.each do |assignment|
-      questionnaire_type_count_map = Hash.new(0)
-      assignment.questionnaires.each do |questionnaire|
-        return false if questionnaire_type_count_map[questionnaire.type] ==1
-        questionnaire_type_count_map[questionnaire.type] += 1
-      end
+      questionnaires = assignment.questionnaires
+      return false if questionnaires.uniq{|q| q.type}.length < questionnaires.length
     end
     return true
   end
