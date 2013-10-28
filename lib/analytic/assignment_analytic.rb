@@ -48,19 +48,11 @@ module AssignmentAnalytic
 
 
   def team_review_counts
-    #list = Array.new
-    #self.teams.each do |team|
-    #  list << team.num_reviews
-    #end
     list = extract_from_list self.teams, :num_reviews
     (list.empty?) ? [0] : list
   end
 
   def team_scores
-    #list = Array.new
-    #self.teams.each do |team|
-    #  list << team.average_review_score
-    #end
     list = extract_from_list self.teams, :average_review_score
     (list.empty?) ? [0] : list
   end
@@ -76,6 +68,33 @@ module AssignmentAnalytic
     questionnaire_type_list
   end
 
+
+  #return questionnaire of a type related to the assignment
+  #assumptions: only 1 questionnaire of each type exist which should be the case
+  def questionnaire_of_type(type_name_in_string)
+    self.questionnaires.find { |questionnaire| questionnaire == type_name_in_string }
+  end
+
+  #helper function do to verify the assumption made above
+  def self.questionnaire_unique?
+    self.all.each do |assignment|
+      questionnaires = assignment.questionnaires
+      return false if questionnaires.uniq { |q| q.type }.length < questionnaires.length
+    end
+    return true
+  end
+
+  def has_review_questionnaire?
+    questionnaire_types.include?("ReviewQuestionnaire")
+  end
+
+  def review_questionnaire
+    questionnaire_of_type("ReviewQuestionnaire")
+  end
+
+
+  ## OLD COMPLEX METHODS [before refactoring]
+
   #return questionnaire of a type related to the assignment
   #assumptions: only 1 questionnaire of each type exist which should be the case
   #def questionnaire_of_type(type_name_in_string)
@@ -85,12 +104,6 @@ module AssignmentAnalytic
   #    end
   #  end
   #end
-
-  #return questionnaire of a type related to the assignment
-  #assumptions: only 1 questionnaire of each type exist which should be the case
-  def questionnaire_of_type(type_name_in_string)
-    self.questionnaires.find { |questionnaire| questionnaire == type_name_in_string }
-  end
 
   ##helper function do to verify the assumption made above
   #def self.questionnaire_unique?
@@ -109,22 +122,5 @@ module AssignmentAnalytic
   #  end
   #  return true
   #end
-
-  #helper function do to verify the assumption made above
-  def self.questionnaire_unique?
-    self.all.each do |assignment|
-      questionnaires = assignment.questionnaires
-      return false if questionnaires.uniq{|q| q.type}.length < questionnaires.length
-    end
-    return true
-  end
-
-  def has_review_questionnaire?
-    questionnaire_types.include?("ReviewQuestionnaire")
-  end
-
-  def review_questionnaire
-    questionnaire_of_type("ReviewQuestionnaire")
-  end
 
 end

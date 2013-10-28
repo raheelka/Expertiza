@@ -58,6 +58,7 @@ class AnalyticController < ApplicationController
     graph_type = params[:type]
     id = params[:id]
     data_type = params[:data_type]
+    puts "DATA #{data_type}"
 
     graph_method_name = {'line' => 'line_graph_data',
                          'bar' => 'bar_chart_data',

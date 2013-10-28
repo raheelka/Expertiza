@@ -1,18 +1,5 @@
 require 'analytic/question_analytic'
 module QuestionnaireAnalytic
-=begin
-  #return all possible questionnaire types
-  def self.types
-    type_list = Array.new
-    self.all.each do |questionnaire|
-      if !type_list.include?(questionnaire.type)
-        type_list << questionnaire.type
-      end
-    end
-    type_list
-  end
-=end
-
 
   #return all possible questionnaire types
   def self.types
@@ -20,25 +7,15 @@ module QuestionnaireAnalytic
     type_list.uniq
   end
 
-
   def num_questions
     self.questions.count
   end
 
   def questions_text_list
-    #question_list = Array.new
-    #self.questions.each do |questions|
-    #  question_list << question.txt
-    #end
-    #question_list
     extract_from_list self.questions, :txt
   end
 
   def word_count_list
-    #word_count_list = Array.new
-    #self.questions.each do |question|
-    #  word_count_list << question.word_count_list
-    #end
     extract_from_list self.questions, :word_count_list
   end
 
@@ -51,10 +28,6 @@ module QuestionnaireAnalytic
   end
 
   def character_count_list
-    #character_count_list = Array.new
-    #self.questions.each do |question|
-    #  character_count_list << question.character_count
-    #end
     extract_from_list self.questions, :character_count
   end
 
@@ -66,4 +39,17 @@ module QuestionnaireAnalytic
     total_character_count/num_questions
   end
 
+# OLD COMPLEX METHOD [before refactoring]
+=begin
+     #return all possible questionnaire types
+    def self.types
+      type_list = Array.new
+      self.all.each do |questionnaire|
+        if !type_list.include?(questionnaire.type)
+          type_list << questionnaire.type
+        end
+      end
+      type_list
+    end
+=end
 end
