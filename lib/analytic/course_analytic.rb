@@ -49,10 +49,6 @@ module CourseAnalytic
 
   #======= reviews =======#
   def assignment_review_counts
-    #list = Array.new
-    #self.assignments.each do |assignment|
-    #  list << assignment.total_num_team_reviews
-    #end
     list = extract_from_list self.assignments, :total_num_team_reviews
     (list.empty?) ? [0] : list
   end
@@ -75,38 +71,22 @@ module CourseAnalytic
 
 
   def assignment_team_counts
-    #list = Array.new
-    #self.assignments.each do |assignment|
-    #  list << assignment.num_teams
-    #end
     list = extract_from_list self.assignments, :num_teams
     (list.empty?) ? [0] : list
   end
 
   def assignment_average_scores
-    #list = Array.new
-    #self.assignments.each do |assignment|
-    #  list << assignment.average_team_score
-    #end
     list = extract_from_list self.assignments, :average_team_score
     (list.empty?) ? [0] : list
 
   end
 
   def assignment_max_scores
-    #list = Array.new
-    #self.assignments.each do |assignment|
-    #  list << assignment.max_team_score
-    #end
     list = extract_from_list self.assignments, :max_team_score
     (list.empty?) ? [0] : list
   end
 
   def assignment_min_scores
-    #list = Array.new
-    #self.assignments.each do |assignment|
-    #  list << assignment.min_team_score
-    #end
     list = extract_from_list self.assignments, :min_team_score
     (list.empty?) ? [0] : list
   end

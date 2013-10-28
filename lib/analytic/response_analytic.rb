@@ -58,40 +58,23 @@ module ResponseAnalytic
   private
   #return an array of strings containing the word count of al the comments
   def word_count_list
-    #list = Array.new
-    #self.scores.each do |score|
-    #  list << score.word_count
-    #end
     list = extract_from_list self.scores, :word_count
     (list.empty?) ? [0] : list
   end
 
   def character_count_list
-    #list = Array.new
-    #self.scores.each do |score|
-    #  list << score.character_count
-    #end
     list = extract_from_list self.scores, :character_count
     (list.empty?) ? [0] : list
   end
 
   #return score for all of the questions in an array
   def question_score_list
-    #list = Array.new
-    #self.scores.each do |score|
-    #  list << score.score
-    #end
     list = extract_from_list self.scores, :score
     (list.empty?) ? [0] : list
   end
 
   #return an array of strings containing all of the comments
   def comments_text_list
-    #comments_list = Array.new
-    #self.scores.each do |score|
-    #  comments_list << score.comments
-    #end
-    #comments_list
     extract_from_list self.scores, :comments
   end
 

@@ -9,7 +9,6 @@ module AssignmentTeamAnalytic
   end
 
   def num_reviews
-    puts "IN NUM RE"
     self.responses.count
   end
 
@@ -68,29 +67,17 @@ module AssignmentTeamAnalytic
 
 
   def review_character_counts
-    #list = Array.new
-    #self.responses.each do |response|
-    #  list << response.total_character_count
-    #end
     list = extract_from_list self.responses, :total_character_count
     (list.empty?) ? [0] : list
   end
 
   #return an array containing the score of all the reviews
   def review_scores
-    #list = Array.new
-    #self.responses.each do |response|
-    #  list << response.get_average_score
-    #end
     list = extract_from_list self.responses, :get_average_score
     (list.empty?) ? [0] : list
   end
 
   def review_word_counts
-    #list = Array.new
-    #self.responses.each do |response|
-    #  list << response.total_word_count
-    #end
     list = extract_from_list self.responses, :total_word_count
     (list.empty?) ? [0] : list
   end
