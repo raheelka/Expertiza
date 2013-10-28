@@ -10,9 +10,9 @@ class AnalyticControllerTest < ActionController::TestCase
     @controller = AnalyticController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    @request.session[:user] = users(:superadmin)
+    @request.session[:user] = users(:admin)
     Role.rebuild_cache
-    AuthController.set_current_role(users(:superadmin).role_id,@request.session)
+    AuthController.set_current_role(users(:admin).role_id,@request.session)
   end
 
   def test_assignment_list
@@ -48,4 +48,24 @@ class AnalyticControllerTest < ActionController::TestCase
     assert_equal teams_list,returned_teams_list
     assert_response :success
   end
+
+  def test_index
+    get :index
+    # Simply check if index renders a 200 OK
+    assert_response :success
+  end
+
+  def test_course_list
+    get :course_list
+    returned_course_list=JSON.parse(@response.body)
+    course_list=Array.new
+    course_list << ["CSC110",108022375]
+    course_list << ["CSC111",829913840]
+    # checking if the list from the response body has the courses mentioned above
+    intersected_list=returned_course_list & course_list
+    assert_equal intersected_list,course_list
+    assert_response :success
+
+  end
+
 end

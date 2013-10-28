@@ -347,6 +347,7 @@ Expertiza::Application.routes.draw do |map|
       get :team_list
       get :assignment_list
       get :get_graph_data_bundle
+      get :index
     end
   end
 
